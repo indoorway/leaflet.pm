@@ -135,7 +135,7 @@ const SnapMixin = {
 
         // find all layers that are or inherit from Polylines...
         this._layer._map.eachLayer((layer) => {
-            if(layer instanceof L.Polyline) {
+            if(layer instanceof L.Polyline || layer instanceof L.Marker) {
                 layers.push(layer);
 
                 // this is for debugging
@@ -143,7 +143,7 @@ const SnapMixin = {
                 debugIndicatorLines.push(debugLine);
 
                 // uncomment 👇 this in to show debugging lines
-                // debugLine.addTo(this._layer._map);
+                debugLine.addTo(this._layer._map);
             }
         });
 
@@ -189,7 +189,12 @@ const SnapMixin = {
         let coords;
 
         // the coords of the layer
-        if(closedShape) {
+        if(layer instanceof L.Marker) {
+            return {
+                latlng: layer.getLatLng(),
+                distance: this._getDistance(map, layer.getLatLng(), P),
+            };
+        } else if(layer instanceof L.Polygon) {
             coords = layer.getLatLngs()[0];
         } else {
             coords = layer.getLatLngs();
