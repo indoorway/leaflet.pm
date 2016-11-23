@@ -111,6 +111,7 @@ const DragMixin = {
 
         // save current latlng for next delta calculation
         this._tempDragCoord = latlng;
+        this._deltaLatLng = deltaLatLng;
 
         // fire pm:dragstart event
         this._layer.fire('pm:drag');
