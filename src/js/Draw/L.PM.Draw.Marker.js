@@ -18,6 +18,9 @@ L.PM.Draw.Marker = L.PM.Draw.extend({
         // toggle the draw button of the Toolbar in case drawing mode got enabled without the button
         this._map.pm.Toolbar.toggleButton(this.toolbarButtonName, true);
 
+        // change map cursor
+        this._map._container.style.cursor = 'crosshair';
+
         // enable edit mode for existing markers
         this._map.eachLayer((layer) => {
             if(layer instanceof L.Marker) {
@@ -30,6 +33,9 @@ L.PM.Draw.Marker = L.PM.Draw.extend({
         if(!this._enabled) {
             return;
         }
+
+        // reset cursor
+        this._map._container.style.cursor = 'default';
 
         // undbind click event, don't create a marker on click anymore
         this._map.off('click', this._createMarker, this);
